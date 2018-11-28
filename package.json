@@ -1,0 +1,28 @@
+{
+  "name": "madaodemo",
+  "version": "1.0.0",
+  "description": "this is a demo from madao",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.4",
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node ./test.js",
+    "start": "node ./app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.sinacloud.com/madaodemo"
+  },
+  "keywords": [
+    "node",
+    "sae",
+    "demo"
+  ],
+  "author": "madao",
+  "license": "ISC"
+}
