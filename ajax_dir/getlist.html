@@ -7,28 +7,20 @@
     <title>Document</title>
 </head>
 <body>
-    <p>
-        用户名称：<input type="text" name="" id="uname">
-    </p>
-    <p>
-        用户密码：<input type="password" name="" id="upwd">
-    </p>
-    <input type="button" value="登录" onclick="getLogin()">
-
+    <input type="button" value="获取数据" onclick="getList()">
+    <div id="d1"></div>
     <script>
-        function getLogin(){
+        function getList(){
             var xhr = new XMLHttpRequest();
-            
+
             xhr.onreadystatechange = function () {
-                console.log(xhr.readyState);
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var result = xhr.responseText;
-                    console.log(result);
+                    d1.innerHTML += result;
                 }
             }
-            
-            var url = `/demo/demologin?uname=${uname.value}&upwd=${upwd.value}`;
-            xhr.open('get', url, true);
+
+            xhr.open('get', '/demo/getlist', true);
 
             xhr.send(null);
         }
