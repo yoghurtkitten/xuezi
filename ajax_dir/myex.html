@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="uname">
+    <input type="button" value="获取" onclick="getAjax()">
+    <div id="d1"></div>
+
+    <script>
+        function getAjax(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = xhr.responseText;
+                    console.log(result);
+                    d1.innerHTML = result;
+                }
+            }
+
+            xhr.open('get', `/demo/ajaxDemo`, true);
+            
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
