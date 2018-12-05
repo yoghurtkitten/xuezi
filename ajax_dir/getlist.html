@@ -8,7 +8,7 @@
 </head>
 <body>
     <input type="button" value="获取数据" onclick="getList()">
-    <div id="d1"></div>
+    <table id="d1" border="1px"></table>
     <script>
         function getList(){
             var xhr = new XMLHttpRequest();
@@ -16,7 +16,19 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var result = xhr.responseText;
-                    d1.innerHTML += result;
+                    var arr = JSON.parse(result);
+                    for (let i = 0; i < arr.length; i++) {
+                        d1.innerHTML += `<tr>
+                            <td>${arr[i].uname}</td>
+                            <td>${arr[i].upwd}</td>
+                            <td>${arr[i].email}</td>
+                            <td>${arr[i].phone}</td>
+                            <td>${arr[i].avatar}</td>
+                            <td>${arr[i].user_name}</td>
+                            <td>${arr[i].gender}</td>
+                            </tr>`;
+                    }
+                    console.log(d1.innerHTML)
                 }
             }
 

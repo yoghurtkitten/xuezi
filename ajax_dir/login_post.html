@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        用户名称<input type="text" name="" id="uname">
+    </div>
+    <div>
+        用户密码<input type="password" name="" id="upwd">
+    </div>
+    <input type="button" value="post登录" onclick="post_msg()">
+
+    <script>
+        function post_msg(){
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = xhr.responseText;
+                    console.log(result);
+                }
+            }
+
+            xhr.open('post', '/demo/post_login', true);
+
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+            var data = `uname=${uname.value}&upwd=${upwd.value}`;
+            xhr.send(data);
+        }
+    </script>
+</body>
+</html>

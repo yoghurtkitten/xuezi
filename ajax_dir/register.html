@@ -20,6 +20,10 @@
         手机：<input type="text" name="" id="phone">
     </p>
     <p>
+        性别：<input type="radio" name="gender" id="g1" value="1" checked><label for="g1">男</label>
+        <input type="radio" name="gender" id="g2" value="0"><label for="g2">女</label>
+    </p>
+    <p>
         姓名：<input type="text" name="" id="user_name">
     </p>
     <input type="button" value="提交" onclick="login()">
@@ -44,7 +48,15 @@
         }
 
         function login(){
-            var xhr = new XMLHttpRequest();
+            var gender = 1;
+            var g = document.getElementsByName("gender");
+            for (let i = 0; i < g.length; i++) {
+                if (g[i].checked){
+                    gender = g[i].value;
+                }   
+            }
+
+           var xhr = new XMLHttpRequest();
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -53,13 +65,13 @@
                 }
             }
 
-            xhr.open('post', '/demo/login', true);
+            xhr.open('post', '/demo/post_registers', true);
 
             xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 
-            var data = `uname=${uname.value}&upwd=${upwd.value}&email=${email.value}&phone=${phone.value}&user_name=${user_name.value}`;
+            var data = `uname=${uname.value}&upwd=${upwd.value}&email=${email.value}&phone=${phone.value}&gender=${gender}&user_name=${user_name.value}`;
 
-            xhr.send(data);
+            xhr.send(data); 
         }
     </script>
 </body>

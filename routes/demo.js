@@ -57,7 +57,7 @@ router.post('/postAjax', (req, res) => {
     });
 });
 
-router.post('/login', (req, res) => {
+router.post('/post_register', (req, res) => {
     var obj = req.body;
     var validateResule = validate(obj);
     if (validateResule.msg) {
@@ -94,6 +94,10 @@ router.get('/getlist', (req, res) => {
 
 router.post('/validate', (req, res) => {
     var obj = req.body;
+    if (!obj.uname) {
+        res.send('用户名不能为空');
+        return;
+    }
     var sql = 'SELECT * FROM xz_user WHERE uname = ?';
     pool.query(sql, [obj.uname], (err, result) => {
         if (err) {
@@ -106,6 +110,30 @@ router.post('/validate', (req, res) => {
         }
     });
 });
+
+router.post('/post_login', (req, res) => {
+    var obj = req.body;
+    var validateResule = validate(obj);
+    if (validateResule.msg) {
+        res.send({code: validateResule.code, msg: validateResule.msg});
+        return;
+    }
+
+    var sql = 'SELECT * FROM xz_user WHERE uname = ? AND upwd = ?';
+
+    pool.query(sql, [obj.uname, obj.upwd], (err, result) => {
+        if (err) {
+            throw err;
+        }
+        console.log(result);
+        if (result.length) {
+            res.send('登录成功 !!');
+        } else {
+            res.send('登录失败 !!');
+        }
+    });
+});
+
 
 
 
