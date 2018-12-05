@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body onload="getlist()">
+    <table border="1px" cellspacing="0" id="d1">
+        <thead>
+            <tr>
+                <th>登录名称</th>
+                <th>电子邮件</th>
+                <th>联系方式</th>
+                <th>用户名称</th>
+                <th>用户性别</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    </table>
+    <script>
+        function getlist(){
+            var xhr = new XMLHttpRequest();
+            
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var reslut = xhr.responseText;
+                    var arr = JSON.parse(reslut);
+                    for (let i = 0; i < arr.length; i++) {
+                        d1.innerHTML += `
+                            <tr>
+                                <td>${arr[i].uname}</td>
+                                <td>${arr[i].email}</td>
+                                <td>${arr[i].phone}</td>
+                                <td>${arr[i].user_name}</td>
+                                <td>${arr[i].gender == 1 ? '男' : (arr[i].gender == 0 ? '女' : '不详')}</td>
+                                <td>
+                                    <a href="/mypro/del?uid=${arr[i].uid}">删除</a><a href="/mypro/update?uid=${arr[i].uid}">修改</a>
+                                </td>
+                            </tr>
+                        `;
+                        console.log(d1.innerHTML);  
+                    }
+                }
+            }
+
+            xhr.open('get', '/mypro/userlist', true);
+
+            xhr.send(null);
+        }
+    </script>
+</body>
+</html>

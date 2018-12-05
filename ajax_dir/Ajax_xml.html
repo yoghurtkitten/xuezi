@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="异步请求xml数据" onclick="getXML()">
+    <div id="d1"></div>
+    <script>
+        function getXML(){
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState == 4 && xhr.status == 200){
+                    var result = xhr.responseXML;
+                    
+                    var student_arr = result.getElementsByTagName('student');
+                    for (let i = 0; i < student_arr.length; i++) {
+                        var name_arr = student_arr[i].getElementsByTagName('name');
+                        var age_arr = student_arr[i].getElementsByTagName('age');
+                        var gender_arr = student_arr[i].getElementsByTagName('gender');
+                        console.log(name_arr[0].innerHTML,age_arr[0].innerHTML,gender_arr[0].innerHTML);
+                       
+                    }
+                    /* var students = result.getElementsByTagName('student');
+                    console.log(students[0].getElementsByTagName('name')[0].innerHTML);
+                    console.log(students[0].getElementsByTagName('age')[0].innerHTML);
+                    console.log(students[0].getElementsByTagName('gender')[0].innerHTML); */
+                }
+            }
+
+            xhr.open('get', 'student.xml', true);
+            xhr.send(null);
+        }
+    </script>
+</body>
+</html>
