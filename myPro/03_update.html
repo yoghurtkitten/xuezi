@@ -10,7 +10,7 @@
     <div>
         <input type="text" name="" id="uid">
         <p>
-            用户：<input type="text" name="" id="uname"><span id="msg1"></span>
+            用户：<input type="text" name="" id="uname" placeholder="昵称/邮箱/手机号" onblur="validate()"><span id="msg1"></span>
         </p>
         <p>
             密码：<input type="text" name="" id="upwd">
@@ -97,7 +97,26 @@
             var data = `uname=${uname.value}&email=${email.value}&phone=${phone.value}&user_name=${user_name.value}&gender=${gender_value}&uid=${uid.value}&upwd=${upwd.value}`;
             xhr.send(data);
         }
+        
+        function validate() {
+            var xhr = new XMLHttpRequest();
+                
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = xhr.responseText;
+                    var arr = JSON.parse(result)
+                    msg1.innerHTML = arr.msg;
+                    console.log(arr.msg);
+                }
+            }
+            
+            xhr.open('post', '/user/update_validate', true);
 
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            var data = `uname=${uname.value}&uid=${uid.value}`;
+            xhr.send(data);
+        }
     </script>
 </body>
 </html>

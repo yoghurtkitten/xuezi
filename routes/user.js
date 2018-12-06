@@ -158,5 +158,29 @@ router.get('/userlist', (req, res) => {
     });
 })
 
+router.post('/update_validate', (req, res) => {
+    var obj = req.body;
+    if (!obj.uname) {
+        res.send({code: 402, msg: '用户名不能为空'});        
+        return;
+    }
+
+    var sql = 'SELECT * FROM xz_user WHERE uname = ?'
+    pool.query(sql, [obj.uname], (err, result) => {
+        if (err) {
+            throw err;
+        }
+        if (result.length) {
+            if (result[0].uid == obj.uid) {
+                res.send({code: 200, msg: '通过'});   
+            } else {
+                res.send({code: 401, msg: '该用户名已存在'});
+            }
+        } else {
+            res.send({code: 200, msg: '通过'});
+        }
+    }); 
+});
+
 module.exports = router;
  
