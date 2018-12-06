@@ -71,9 +71,10 @@ router.post('/post_register', (req, res) => {
             throw err;
         }
         if (result.affectedRows) {
-            res.send({code: 200, msg: 'Insert Success !!'});
+            // res.send('[{"code": 200, "msg": "Insert Success !!"}]');
+            res.send({code: 200, msg: '插入成功 !!'});   
         } else {
-            res.send({code: 401, msg: 'Insert Error !!'});
+            res.send({code: 401, msg: '插入失败 !!'});
         }
     })
 });
@@ -95,7 +96,7 @@ router.get('/getlist', (req, res) => {
 router.post('/validate', (req, res) => {
     var obj = req.body;
     if (!obj.uname) {
-        res.send('用户名不能为空');
+        res.send({code: 402, msg: '用户名不能为空'});        
         return;
     }
     var sql = 'SELECT * FROM xz_user WHERE uname = ?';
@@ -104,9 +105,9 @@ router.post('/validate', (req, res) => {
             throw err;
         }
         if (result.length) {
-            res.send('用户名被占用');
+            res.send({code: 401, msg: '该用户名已存在'});
         } else {
-            res.send('用户名可用');
+            res.send({code: 200, msg: '通过'});
         }
     });
 });

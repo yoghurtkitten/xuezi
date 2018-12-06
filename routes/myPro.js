@@ -85,9 +85,9 @@ router.post('/homework_del', (req, res) => {
             throw err;
         }
         if (result.affectedRows) {
-            res.send('1');
+            res.send({code: 200, msg: '删除成功 !!!'});
         } else {
-            res.send('Delete Error!!!');
+            res.send({code: 401, msg: '删除失败!!!'});
         }
     });
 })
@@ -126,9 +126,9 @@ router.post('/subUpdate', (req, res) => {
             throw err;
         } 
         if (result.affectedRows) {
-            res.send('200');
+            res.send({code: 200, msg: '修改成功'});
         } else {
-            res.send('401');
+            res.send({code: 401, msg: '修改失败'});
         }
     }); 
 })

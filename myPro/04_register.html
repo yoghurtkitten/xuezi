@@ -14,6 +14,9 @@
         密码：<input type="password" name="" id="upwd">
     </p>
     <p>
+        密码验证：<input type="password" name="" id="upwd2" onblur="check()"><span id="msg2"></span>
+    </p>
+    <p>
         邮箱：<input type="email" name="" id="email">
     </p>
     <p>
@@ -26,20 +29,51 @@
     <p>
         姓名：<input type="text" name="" id="user_name">
     </p>
-    <input type="button" value="提交" onclick="login()">
+    <input type="button" value="提交" onclick="regester()" disabled="disabled" id="btn">
 
     <script>
+        var flag1 = false;
+        var flag2 = false;
+        function check() {
+            if (upwd.value != upwd2.value) {
+                flag1 = false;  
+                msg2.innerHTML = '密码不一致';
+            } else {
+                flag1 = true;
+                msg2.innerHTML = '';
+            }
+            if (flag1 && flag2) {
+                btn.removeAttribute('disabled');                                       
+            } else {
+                btn.setAttribute('disabled','disabled');                       
+            }
+        }
         function validate(){
             var xhr = new XMLHttpRequest();
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var result = xhr.responseText;
-                    msg1.innerHTML = result;
+                    var arr = JSON.parse(result);
+                    msg1.innerHTML = arr.msg;  
+
+                    if (arr.code == 200) { 
+                        flag2 = true;
+                    } else if(arr.code == 401) {
+                        flag2 = false;                    
+                    } else {
+                        flag2 = false;                       
+                    }
+
+                    if (flag1 && flag2) {
+                        btn.removeAttribute('disabled');                                       
+                    } else {
+                        btn.setAttribute('disabled','disabled');                       
+                    }
                 }
             }
 
-            xhr.open('post', 'demo/validate', true);
+            xhr.open('post', 'user/validate', true);
 
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             
@@ -47,7 +81,7 @@
             xhr.send(data);
         }
 
-        function login(){
+        function regester(){
             var gender = 1;
             var g = document.getElementsByName("gender");
             for (let i = 0; i < g.length; i++) {
@@ -61,11 +95,19 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var result = xhr.responseText;
-                    console.log(result);
+                    var arr = JSON.parse(result);
+                   /*  console.log(arr.code);
+                    console.log(typeof(arr.code)); */
+                    if (arr.code == 200){
+                        console.log('插入成功');
+                        location.href='http://127.0.0.1:5050/02_list.html';                         
+                    } else {
+                        console.log('插入失败');
+                    }
                 }
             }
 
-            xhr.open('post', '/demo/post_register', true);
+            xhr.open('post', '/user/register', true);
 
             xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 

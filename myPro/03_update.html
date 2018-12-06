@@ -60,7 +60,7 @@
                 }
             }
             
-            xhr.open('get', `/mypro/getInfoById?uid=${i}`, true);
+            xhr.open('get', `/user/getInfoById?uid=${i}`, true);
 
             xhr.send();
         }
@@ -71,18 +71,19 @@
             xhr.onreadystatechange = function(){
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var result = xhr.responseText;
-                    if (result == '200'){
-                        console.log('修改成功');
+                    var arr = JSON.parse(result);
+                    if (arr.code == 200){
+                        alert(arr.msg);
                         var url = '02_list.html';
                         window.location.href = url
                         
                     } else {
-                        console.log('修改失败');
+                        alert(arr.msg);
                     }
                 }
             }
 
-            xhr.open('post', '/mypro/subUpdate', true);
+            xhr.open('post', '/user/update', true);
 
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             

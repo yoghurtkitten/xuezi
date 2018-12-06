@@ -17,16 +17,17 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var result = xhr.responseText;
-                    if (result == '1'){
-                        alert('删除成功');
+                    var arr = JSON.parse(result);
+                    if (arr.code == 200){
+                        alert(arr.msg);
                         getlist();
                     } else {
-                        alert('删除失败');
+                        alert(arr.msg);
                     }
                 }
             }
             
-            xhr.open('post', '/mypro/homework_del', true);
+            xhr.open('post', '/user/delete', true);
 
             xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 
@@ -73,7 +74,7 @@
                 }
             }
 
-            xhr.open('get', '/mypro/userlist', true);
+            xhr.open('get', '/user/userlist', true);
 
             xhr.send(null);
         }
