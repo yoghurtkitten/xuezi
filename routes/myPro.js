@@ -85,7 +85,7 @@ router.post('/homework_del', (req, res) => {
             throw err;
         }
         if (result.affectedRows) {
-            res.send('Delete Success!!!');
+            res.send('1');
         } else {
             res.send('Delete Error!!!');
         }
@@ -120,15 +120,15 @@ router.post('/subUpdate', (req, res) => {
         res.send(validateResult.msg);
         return;
     }
-    var sql = 'UPDATE xz_user SET uname = ?, email = ?, phone = ?, user_name = ?, gender = ? where uid = ?';
-    pool.query(sql, [obj.uname, obj.email, obj.phone, obj.user_name, obj.gender, obj.uid], (err, result) => {
+    var sql = 'UPDATE xz_user SET uname = ?, upwd = ?, email = ?, phone = ?, user_name = ?, gender = ? where uid = ?';
+    pool.query(sql, [obj.uname, obj.upwd, obj.email, obj.phone, obj.user_name, obj.gender, obj.uid], (err, result) => {
         if (err) {
             throw err;
         } 
         if (result.affectedRows) {
-            res.send('Update Success!!!');
+            res.send('200');
         } else {
-            res.send('Update Success!!!');
+            res.send('401');
         }
     }); 
 })

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body onload="getid()">
+    <div>
+        <input type="text" name="" id="uid">
+        <p>
+            用户：<input type="text" name="" id="uname"><span id="msg1"></span>
+        </p>
+        <p>
+            密码：<input type="text" name="" id="upwd">
+        </p>
+        <p>
+            邮箱：<input type="email" name="" id="email">
+        </p>
+        <p>
+            手机：<input type="text" name="" id="phone">
+        </p>
+        <p>
+            性别：<input type="radio" name="gender" id="g1" value="1"><label for="g1">男</label>
+            <input type="radio" name="gender" id="g2" value="0"><label for="g2">女</label>
+        </p>
+        <p>
+            姓名：<input type="text" name="" id="user_name">
+        </p>
+        <p>
+            <input type="button" value="提交修改" onclick="submitData()">
+        </p>
+    </div>
+    <script>
+
+        function getid(){
+            
+            var urlParams = new URLSearchParams(location.search);
+            var i = urlParams.get('uid');
+            uid.value = i;
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = xhr.responseText;
+                    var arr = JSON.parse(result);
+                    uname.value = arr[0].uname;
+                    email.value = arr[0].email;
+                    phone.value = arr[0].phone;
+                    user_name.value = arr[0].user_name;
+                    upwd.value = arr[0].upwd;
+
+                    var gen = document.getElementsByName('gender');
+                    for (let i = 0; i < gen.length; i++) {
+                        if(gen[i].value == arr[0].gender){
+                            gen[i].setAttribute("checked","checked");   
+                        }
+                    }
+                }
+            }
+            
+            xhr.open('get', `/mypro/getInfoById?uid=${i}`, true);
+
+            xhr.send();
+        }
+
+        function submitData(){
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = xhr.responseText;
+                    if (result == '200'){
+                        console.log('修改成功');
+                        var url = '02_list.html';
+                        window.location.href = url
+                        
+                    } else {
+                        console.log('修改失败');
+                    }
+                }
+            }
+
+            xhr.open('post', '/mypro/subUpdate', true);
+
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            
+            var gens = document.getElementsByName('gender');
+            var gender_value = null;
+            for (let i = 0; i < gens.length; i++) {
+                if(gens[i].checked){
+                    gender_value = gens[i].value;
+                } 
+            }
+            var data = `uname=${uname.value}&email=${email.value}&phone=${phone.value}&user_name=${user_name.value}&gender=${gender_value}&uid=${uid.value}&upwd=${upwd.value}`;
+            xhr.send(data);
+        }
+
+    </script>
+</body>
+</html>
